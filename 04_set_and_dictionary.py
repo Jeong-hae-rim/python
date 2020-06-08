@@ -7,22 +7,29 @@
 set_a = {1, 2, 3}
 set_b = {3, 6, 9}
 
-print(set_a - set_b) #차집합
-print(set_a | set_b) #합집합
-print(set_a & set_b) #교집합
+#차집합
+print(set_a - set_b) 
+#합집합
+print(set_a | set_b) 
+#교집합
+print(set_a & set_b) 
 
-set_c = set() # 빈 set을 만들 때
+
+set_c = set() 
+# 빈 set을 만들 때
 
  # set_c = {1, 1, 1} => 출력해보면 {1}만 나옴
 
 
 # 2. dictionary
-dict_a = {} # dict에서 빈 dict를 만들 때는 기본적으로 이쪽을 더 권장 (내부적으로 동작할 때 메모리를 덜 잡아먹음)
+dict_a = {} 
+# dict에서 빈 dict를 만들 때는 기본적으로 이쪽을 더 권장 (내부적으로 동작할 때 메모리를 덜 잡아먹음)
 print(type(dict_a))
 dict_b = dict()
 print(type(dict_b))
 
-dict_a = {1: 1, 2:2, 3:3, 1:4} # 키가 겹치면 뒤에 온 키로 덮어 씌워지며 실제로 이렇게 작성해서도 안 됨
+dict_a = {1 : 1, 2 : 2, 3 : 3, 1 : 4} 
+# 키가 겹치면 뒤에 온 키로 덮어 씌워지며 실제로 이렇게 작성해서도 안 됨
 print(dict_a)
 
 phone_book = {

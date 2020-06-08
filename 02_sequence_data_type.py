@@ -32,7 +32,7 @@ print(type(single_tuple))
 
 # 3. range()
 # 숫자의 시퀀스를 나타내기 위해 사용하는 함수
-print(range(10))
+print(range(10)) #
 print(list(range(10)))
 
 #a = []

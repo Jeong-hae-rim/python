@@ -9,10 +9,12 @@ print(number, string, bools)
 
 # 숫자형 (int, float, complex-복소수)
 a = 3
-print(type(a)) #<class 'int'> : 클래스가 int타입이라는 뜻
+print(type(a)) 
+#<class 'int'> : 클래스가 int타입이라는 뜻
 
 #bool
-print(type(False)) #<class 'bool'> : 클래스가 bool타입이라는 뜻
+print(type(False)) 
+#<class 'bool'> : 클래스가 bool타입이라는 뜻
 #0, 0.0, (), [], {}, '', None(값이 없음) -> 얘네는 기본적으로 False로 표현됨
 
 
@@ -20,7 +22,8 @@ print(type(False)) #<class 'bool'> : 클래스가 bool타입이라는 뜻
 greeting = 'hi'
 name = 'haerim'
 print(greeting, name)
-print(type(name)) # <class 'str'> : 클래스가 str 타입
+print(type(name)) 
+# <class 'str'> : 클래스가 str 타입
 
 #age = input() # input() : 사용자의 입력을 받는 함수
 #print(age)
@@ -48,4 +51,4 @@ print('Hello, {}'.format(name))
 print(f'Hello, {name}')
 
 pi = 3.141592
-print(f'원쥬율은 {pi:.4}. 반지름이 2일 때 원의 넓이는 {pi*2*2}')
+print(f'원쥬율은 {pi : .4}. 반지름이 2일 때 원의 넓이는 {pi * 2 * 2}')
