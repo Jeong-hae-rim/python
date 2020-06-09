@@ -28,5 +28,13 @@ print(winner[0:7:1])
 match_num = set(pick) & set(winner)
 print(len(match_num))
 
-if len(match_num) >= 6:
-    print
+if len(match_num) == 6:
+    print('1등입니다.')
+elif (len(match_num) == 5) & bonus_num:
+    print('2등입니다.')
+elif len(match_num) == 4:
+    print('3등입니다.')
+elif len(match_num) == 3:
+    print('4등입니다.')
+else:
+    print('낙첨입니다.')
