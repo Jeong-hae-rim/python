@@ -50,3 +50,14 @@ def multiplication(request, front, back):
         'result': result,
     }
     return render(request, 'multiplication.html', context)
+
+def dtl_practice(request):
+    foods = ['짜장면', '초밥', '차돌짬뽕', '콩국수']
+    empty_list = []
+    messages = 'Life is short, You need Python'
+    context= {
+        'foods': foods,
+        'empty_list': empty_list,
+        'messages': messages,
+    }
+    return render(request, 'dtl_practice.html', context)
