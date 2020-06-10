@@ -26,4 +26,5 @@ urlpatterns = [
     path('introduce/<str:name>/<int:age>/', views.introduce),
     path('multiplication/<int:front>/<int:back>/', views.multiplication),
     path('dtl_practice/', views.dtl_practice),
+    path('palin/<str:word>', views.palin),
 ]

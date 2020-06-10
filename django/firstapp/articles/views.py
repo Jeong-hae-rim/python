@@ -64,3 +64,11 @@ def dtl_practice(request):
         'datetime_now': datetime_now,
     }
     return render(request, 'dtl_practice.html', context)
+
+def palin(request, word):
+    word2 = word[::-1]
+    context = {
+        'word': word,
+        'word2': word2,
+    }
+    return render(request, 'palin.html', context)
