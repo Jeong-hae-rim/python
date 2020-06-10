@@ -66,9 +66,15 @@ def dtl_practice(request):
     return render(request, 'dtl_practice.html', context)
 
 def palin(request, word):
-    word2 = word[::-1]
+    if word == word[::-1]:
+        result = True
+    #word2 = word[::-1]
+    else:
+        result = False
     context = {
         'word': word,
-        'word2': word2,
+        'result': result
+        #'word': word,
+        #'word2': word2,
     }
     return render(request, 'palin.html', context)
