@@ -79,5 +79,30 @@
     <p>{{ messages|truncatechars:3 }}</p>
     <!-- ... >> 이 ...까지 포함해서 3개기 때문에 ...만 출력 됨-->
     <p>{{ messages|truncatechars:10 }}</p>
+
+    <hr>
+    
+    <h3> 6. 글자 관련 필터</h3>
+    <p>{{ 'ABC'|lower }}</p>
+    <p>{{ messages|title }}</p>
+    <p>{{ 'abc def'|capfirst }}</p>
+    <p>{{ foods|random }}</p>
+    
+    <hr>
+
+    <h3> 7. 연산 </h3>
+    <p> {{ 4|add:6 }} </p>
+    <!--연산을 view에서 template으로 넘기면 안 된다-->
+
+    <hr>
+
+    <h3> 8. 날짜 표현 </h3>
+    <p>{{ datetime_now }}</p>
+    <!--view에서 값을 받아옴-->
+    <p>{% now "DATETIME_FORMAT"%}</p>
+    <p>{% now "DATE_FORMAT"%}</p>
+    <p>{% now "SHORT_DATETIME_FORMAT" %}</p>
+    <p>{% now "SHORT_DATE_FORMAT "%}</p>
+    <!--template 상에서 호출-->
 </body>
 </html>
