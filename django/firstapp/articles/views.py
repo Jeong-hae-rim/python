@@ -5,6 +5,7 @@
 # 4. local django
  
 import random
+from pprint import pprint 
 from datetime import datetime
 from django.shortcuts import render
 
@@ -52,6 +53,7 @@ def multiplication(request, front, back):
     }
     return render(request, 'multiplication.html', context)
 
+
 def dtl_practice(request):
     foods = ['짜장면', '초밥', '차돌짬뽕', '콩국수']
     empty_list = []
@@ -64,6 +66,7 @@ def dtl_practice(request):
         'datetime_now': datetime_now,
     }
     return render(request, 'dtl_practice.html', context)
+
 
 def palin(request, word):
     if word == word[::-1]:
@@ -78,3 +81,24 @@ def palin(request, word):
         #'word2': word2,
     }
     return render(request, 'palin.html', context)
+
+
+def throw(request):
+    return render(request, 'throw.html')
+
+
+def catch(request):
+
+    message = request.GET.get('message')
+    letter = request.GET.get('letter')
+
+    context={
+        'message': message,
+        'letter' : letter,
+    }
+
+    #pprint(request.META)
+    #print(request.GET.get('message'))
+    #.get은 쿼리를 받아올 때 없는 쿼리라면 none을 발생.
+    # 서버 기동시 서버를 아예 다운시키는 것보단 저게 더 효율적
+    return render(request, 'catch.html', context)
