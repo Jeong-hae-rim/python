@@ -8,9 +8,17 @@
 <body>
   <h1>회문 판별</h1>
   {% if result %}
-    <p>회문입니다!!!</p>
+    <p>{{ word }} : 회문입니다!!!</p>
   {% else %}
-    <p>회문이 아닙니다!!!</p>
+    <p>{{ word }} : 회문이 아닙니다!!!</p>
   {% endif %}
+
+  {% comment %} 
+  {% if word == word2 %}
+  {{ word }} : 회문입니다.
+  {% else %}
+  {{ word }} : 회문이 아닙니다.
+  {% endif %} 
+  {% endcomment %}
 </body>
 </html>

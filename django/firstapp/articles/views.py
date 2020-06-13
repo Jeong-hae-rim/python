@@ -79,6 +79,7 @@ def ispal(request, word):
         result = False
     context = {
         'result': result,
+        'word' : word,
     }
     return render(request, 'articles/ispal.html', context)
 
