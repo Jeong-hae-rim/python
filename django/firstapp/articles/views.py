@@ -10,9 +10,10 @@ from pprint import pprint
 from datetime import datetime
 from django.shortcuts import render
 
+
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'articles/index.html')
 
 
 def dinner(request):
@@ -21,7 +22,7 @@ def dinner(request):
     context = {
         'pick': pick,
     }
-    return render(request, 'dinner.html', context)
+    return render(request, 'articles/dinner.html', context)
 
 
 def image(request):
@@ -29,14 +30,14 @@ def image(request):
     context = {
         'image_url': image_url,
     }
-    return render(request, 'image.html', context)
+    return render(request, 'articles/image.html', context)
 
 
 def hello(request, name):
     context = {
         'name': name,
     }
-    return render(request, 'hello.html', context)
+    return render(request, 'articles/hello.html', context)
 
 
 def introduce(request, name, age):
@@ -44,7 +45,7 @@ def introduce(request, name, age):
         'name': name,
         'age': age,
     }
-    return render(request, 'introduce.html', context)
+    return render(request, 'articles/introduce.html', context)
 
 
 def times(request, num1, num2):
@@ -54,7 +55,7 @@ def times(request, num1, num2):
         'num2': num2,
         'result': result,
     }
-    return render(request, 'times.html', context)
+    return render(request, 'articles/times.html', context)
 
 
 def dtl_practice(request):
@@ -68,7 +69,7 @@ def dtl_practice(request):
         'messages': messages,
         'datetime_now': datetime_now,
     }
-    return render(request, 'dtl_practice.html', context)
+    return render(request, 'articles/dtl_practice.html', context)
 
 
 def ispal(request, word):
@@ -79,27 +80,27 @@ def ispal(request, word):
     context = {
         'result': result,
     }
-    return render(request, 'ispal.html', context)
+    return render(request, 'articles/ispal.html', context)
 
 
 def throw(request):
-    return render(request, 'throw.html')
+    return render(request, 'articles/throw.html')
 
 
 def catch(request):
     # pprint(request.GET)
     # print(request.GET.get('message'))
     msg_list = ['안녕', '방가방가', '전쪽']
-    message = request.GET.get('message')
+    message = request.GET.get('articles/message')
     context = {
         'message': message,
         'msg_list': msg_list,
     }
-    return render(request, 'catch.html', context)
+    return render(request, 'articles/catch.html', context)
 
 
 def lotto_throw(request):
-    return render(request, 'lotto_throw.html')
+    return render(request, 'articles/lotto_throw.html')
 
 
 def lotto_catch(request):
@@ -110,7 +111,7 @@ def lotto_catch(request):
         'name': name,
         'pick': pick,
     }
-    return render(request, 'lotto_catch.html', context)
+    return render(request, 'articles/lotto_catch.html', context)
 
 
 def artii(request):
@@ -119,7 +120,7 @@ def artii(request):
     context = {
         'fonts_list': fonts_list,
     }
-    return render(request, 'artii.html', context)
+    return render(request, 'articles/artii.html', context)
 
 
 def artii_result(request):
@@ -129,7 +130,7 @@ def artii_result(request):
 
     # 2. ARTII api fontlist로 요청을 보내 폰트 정보를 받는다.
     # response = requests.get('http://artii.herokuapp.com/fonts_list').text
-    # print(type(response))
+    # print(type(response)) : str
     
     # 3. 문자열 데이터를 리스트로 변환한다.
     # fonts_list = response.split('\n')
@@ -146,4 +147,4 @@ def artii_result(request):
     context = {
         'result': result,
     }
-    return render(request, 'artii_result.html', context)
+    return render(request, 'articles/artii_result.html', context)
