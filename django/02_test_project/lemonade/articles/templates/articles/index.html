@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">lemonade!</h1>
+<hr>
+<div style="text-align : center;">
+{% for article in articles %}
+<table>
+<td>{{ article.pk }}</td>
+<td>{{ article.title }}</td>
+<td>{{ article.content }}</td>
+<td>{{ article.created_at }}</td>
+</table>
+{% endfor %}
+</div>
+{% endblock %}
