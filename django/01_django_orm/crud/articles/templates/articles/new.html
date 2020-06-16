@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>NEW</h1>
+<form action="{% url 'articles:create' %}" method="POST">
+    {% csrf_token %} <!--최소한의 신원확인을 위해 토큰을 달아줌-->
+    <input type="text" name="title"><br>
+    <textarea name="content"></textarea><br>
+    <button class="btn btn-primary">작성</button>
+</form>
+
+{% endblock %}
