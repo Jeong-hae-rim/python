@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>EDIT</h1>
+<form action="{% url 'articles:update' article.pk %}" method="POST">
+    {% csrf_token %} <!--최소한의 신원확인을 위해 토큰을 달아줌-->
+    <input type="text" name="title" value="{{ article.title }}"><br>
+    <textarea name="content">{{ article.content }}</textarea><br>
+    <button class="btn btn-primary">수정</button>
+</form>
+
+{% endblock %}
