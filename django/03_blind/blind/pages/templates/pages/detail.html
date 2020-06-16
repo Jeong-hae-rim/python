@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">DETAIL</h1>
+<br>
+<p>글 제목 : {{ pages.title }}</p>
+<p>글 내용 : {{ pages.content }}</p>
+<p>글 작성 : {{ pages.created_at }}</p>
+<p>글 수정 : {{ pages.updated_at }}</p>
+
+<form action="{% url 'pages:delete' pages.pk %}" method="POST">
+{% csrf_token %}
+<button class="btn btn-danger">삭제</button>
+</form>
+<a href="{% url 'pages:edit' pages.pk %}">수정</a>
+<a href="{% url 'pages:index' %}">BACK</a>
+{% endblock %}
