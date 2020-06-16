@@ -12,6 +12,7 @@ def index(request):
 
 
 def new(request):
+    #요청을 보내기만 하기 때문에 다른 처리할 게 없음
     return render(request, 'articles/new.html')
 
 
@@ -40,3 +41,11 @@ def create(request):
 
     return redirect('articles:index')
     #return render(request, 'articles/index.html')
+
+
+def detail(request, pk):
+    article = Article.objects.get(pk=pk) #오른쪽 pk는 variable routing의 pk
+    context = {
+        'article': article,
+    }
+    return render(request, 'articles/detail.html', context)
