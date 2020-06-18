@@ -16,7 +16,6 @@
 
 <button onclick = "location.href = '{% url 'movies:index' %}'" class="btn btn-primary">목록</button>
 <button onclick = "location.href = '{% url 'movies:edit' movies.pk %}'" class="btn btn-success">수정</button>
-
 <form action="{% url 'movies:delete' movies.pk %}" method="POST">
 {% csrf_token %}
 <button class="btn btn-danger">삭제</button>

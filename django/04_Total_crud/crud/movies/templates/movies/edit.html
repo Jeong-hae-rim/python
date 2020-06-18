@@ -3,9 +3,9 @@
 {% block content %}
 <h1 class="text-center">영화 정보 수정</h1>
 <hr>
-<form action="{% url 'movies:update' movies.pk %}" method="POST">
+<form action="" method="POST">
 {% csrf_token %}
-<p>영화 제목 : <input type="text" name="title" value="{{ movies.title }}"></p>
+{% comment %} <p>영화 제목 : <input type="text" name="title" value="{{ movies.title }}"></p>
 <p>영화 제목(영문) : <input type="text" name="title_en" value="{{ movies.title_en }}"></p>
 <p>누적 관객수 : <input type="number" name="audience" value="{{ movies.audience }}"></p>
 <p>개봉일 : <input type="date" name="open_date" value="{{ movies.open_date }}"></p>
@@ -14,7 +14,8 @@
 <p>평점 : <input type="floatformat" name="score" value="{{ movies.score }}"></p>
 <p>포스터 이미지 : <input type="text" name="poster_url" value="{{ movies.poster_url }}"></p>
 <p>영화 소개<p>
-<textarea name="description">{{ movies.description }}</textarea> <br>
+<textarea name="description">{{ movies.description }}</textarea> <br> {% endcomment %}
+{{ form.as_p }}
 
 <button class="btn btn-primary">수정</button>
 </form>
