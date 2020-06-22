@@ -3,21 +3,35 @@
 {% block content %}
 <h1 class="text-center">영화 등록</h1>
 <hr>
-<p>영화 제목 : {{ movies.title }}</p>
-<p>영화 제목(영문) : {{ movies.title_en }}</p>
-<p>누적 관객수 : {{ movies.audience }}명</p>
-<p>개봉일 : {{ movies.open_date }}</p>
-<p>영화 장르 : {{ movies.genre }}</p>
-<p>관람 등급: {{ movies.watch_grde }}</p>
-<p>평점 : {{ movies.score }}점</p>
-<p>포스터 이미지 : <br> <img src="{{ movies.poster_url }}" width="500px" alt=""></p>
-<p>영화 소개 <br> <textarea>{{ movies.description }}</textarea><p>
+<p>영화 제목 : {{ movie.title }}</p>
+<p>영화 제목(영문) : {{ movie.title_en }}</p>
+<p>누적 관객수 : {{ movie.audience }}명</p>
+<p>개봉일 : {{ movie.open_date }}</p>
+<p>영화 장르 : {{ movie.genre }}</p>
+<p>관람 등급: {{ movie.watch_grde }}</p>
+<p>평점 : {{ movie.score }}점</p>
+<p>포스터 이미지  <br> <img src="{{ movie.poster_url }}" width="500px" alt=""></p>
+<p>영화 소개 <br> {{ movie.description }}<p>
 <br>
 
 <button onclick = "location.href = '{% url 'movies:index' %}'" class="btn btn-primary">목록</button>
-<button onclick = "location.href = '{% url 'movies:edit' movies.pk %}'" class="btn btn-success">수정</button>
-<form action="{% url 'movies:delete' movies.pk %}" method="POST">
-{% csrf_token %}
-<button class="btn btn-danger">삭제</button>
+<button onclick = "location.href = '{% url 'movies:edit' movie.pk %}'" class="btn btn-success">수정</button>
+<form action="{% url 'movies:delete' movie.pk %}" method="POST">
+    {% csrf_token %}
+    <button class="btn btn-danger">삭제</button>
 </form>
+<hr>
+<form action="{% url 'movies:comment_create' movie.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button class="btn btn-primary">작성</button>
+</form>
+<hr>
+{% for comment in comments %}
+    <p>{{ comment.content }}</p>
+    <form action="{% url 'movies:comment_delete' movie.pk comment.pk %}" method="POST">
+        {% csrf_token %}
+        <button class="btn btn-danger">삭제</button>
+    </form>
+{% endfor %}
 {% endblock %}

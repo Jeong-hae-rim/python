@@ -1,5 +1,5 @@
 from django import forms
-from .models import Movie
+from .models import Movie, Comment
 
 
 class MovieForm(forms.ModelForm):
@@ -97,3 +97,23 @@ class MovieForm(forms.ModelForm):
     class Meta:
         model = Movie
         fields = '__all__'
+
+
+
+class CommentForm(forms.ModelForm):
+
+    content = forms.CharField(
+        label='댓글',
+        widget=forms.Textarea(
+            attrs={
+                'placeholder': '댓글을 입력해주세요.',
+                'col' : 100,
+                'row' : 10,
+            }
+        )
+    )
+
+
+    class Meta:
+        model = Comment
+        fields = ('content', )

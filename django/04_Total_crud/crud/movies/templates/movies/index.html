@@ -1,18 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class='text-center'>INDEX</h1>
-<hr>
+<div class="container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">MOVIE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="{% url 'movies:create' %}">영화 등록</a>
+        <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contact</a>
+        </div>
+    </div>
+    </nav>
 
+        <div class="text-center">
+        {% for movie in movies %}
+            <p><a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a>, 
+                ({{ movie.score }}점)</p>
+            <hr>
+        {% endfor %}
+        </div>
 
-
-<a class="btn btn-info" href="{% url 'movies:create' %}">새 영화 등록</a>
-</form>
-<hr>
-
-{% for movie in movies %}
-    <p><a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a>, 
-        ({{ movie.score }}점)</p>
-    <hr>
-{% endfor %}
+    <footer class="page-footer font-small blue">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright: HAERIM</div>
+        <!-- Copyright -->
+    </footer>
+    </div>
 {% endblock %}

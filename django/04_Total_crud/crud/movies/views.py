@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.views.decorators.http import require_http_methods
-from .models import Movie
-from .forms import MovieForm
+from django.views.decorators.http import require_http_methods, require_POST
+from .models import Movie, Comment
+from .forms import MovieForm, CommentForm
 
 # Create your views here.
 
@@ -53,9 +53,13 @@ def create(request):
 
 
 def detail(request, pk):
-    movies = Movie.objects.get(pk=pk)
+    movie = Movie.objects.get(pk=pk)
+    comments = movie.comment_set.all()
+    form = CommentForm()
     context = {
-        'movies': movies,
+        'movie': movie,
+        'comments': comments,
+        'form': form,
     }
     return render(request, 'movies/detail.html', context)
 
@@ -103,12 +107,51 @@ def edit(request, pk):
 
 
 def delete(request, pk):
-    movies = Movie.objects.get(pk=pk)
+    movie = Movie.objects.get(pk=pk)
 
     if request.method == 'POST':
-        movies.delete()
+        movie.delete()
         return redirect('movies:index')
     else:
-        return redirect('movies:detail', movies.pk)
+        return redirect('movies:detail', movie.pk)
     
+
+
+# def create(request):
+#     if request.method == 'POST':
+#         form = MovieForm(request.POST)
+#         if form.is_valid():
+#             movie = form.save()
+#             return redirect('movies:detail', movie.pk)
+#     else: # POST  가 아닌 다른 메서드일때만 동작
+#         form = MovieForm()
+#     context = {
+#         # 1. POST가 아닐 때(else) form = 빈 form 보여주기
+#         # 2. is)valid 에서 걸려서 내려온 form = 에러 메세지가 포함된 form 을 보여줌
+#         'form': form,
+#     }
+#     return render(request, 'movies/create.html', context)
+
+
+@require_POST
+def comment_create(request, pk):
+    movie = Movie.objects.get(pk=pk)
+    # content = request.POST.get('content')
+    # Comment.objects.create(movie=movie, content=content)
+
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.movie = movie
+        comment.save()
+
+    return redirect('movies:detail', movie.pk)
+
+@require_POST
+def comment_delete(request, movie_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    
+    comment.delete()
+    
+    return redirect('movies:detail', movie_pk)
 
