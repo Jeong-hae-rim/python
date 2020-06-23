@@ -24,6 +24,6 @@ class CommentForm(forms.ModelForm):
         # 완전히 동일한 구조. 둘 다 반복 가능함.
 
         '''
-        exclude = ['article', ]
+        exclude = ['article', ] -> 내가 제거할 것만 선택
         '''
         #exclude = 

@@ -59,7 +59,7 @@ def delete(request, pk):
     article.delete()
     return redirect('articles:index') 
 
-
+@require_POST
 def comment_create(request, pk):
     article = Article.objects.get(pk=pk)
     # content = request.POST.get('content')
@@ -74,6 +74,8 @@ def comment_create(request, pk):
         
     return redirect('articles:detail', pk)
 
+
+@require_POST
 def comment_delete(request, article_pk, comment_pk):
     comment = Comment.objects.get(pk=comment_pk)
     comment.delete()

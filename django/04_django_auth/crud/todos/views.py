@@ -1,10 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import TodoForm
+from .models import Todo
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+
+@login_required
 def index(request):
-    return render(request, 'todos/index.html')
+    form = TodoForm()
+    # todos = Todo.objects.all()
+    context = {
+        'form': form,
+        # 'todos': todos,
+    }
+    return render(request, 'todos/index.html', context)
 
 
+@login_required
 def create(request):
-    pass
+    form = TodoForm(request.POST)
+    if form.is_valid():
+        todo = form.save(commit=False) #누가 작성한 정보인지 주기 위해 저장하지 않고 잠깐 멈춤
+        todo.user = request.user
+        todo.save()
+        return redirect('todos:index')
+
+def delete(request, pk):
+    todo = Todo.objects.get(pk=pk)
+
+    todo.delete()
+   
+    return redirect('todos:index')
 
