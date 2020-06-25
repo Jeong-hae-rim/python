@@ -6,9 +6,17 @@
   <img src="{{ post.image.url }}" class="card-img-top">
   <div class="card-body">
     {% if post in user.like_posts.all %}
-      <a href="{% url 'posts:like' post.id %}"><i class="fas fa-heart" style="color:tomato"></i></a>
+      <a href="{% url 'posts:like' post.id %}"><i class="fas fa-heart" style="color:tomato"></i></a> <br>
+      {% for user in post.like_users.all %}
+        <span style="color:tomato">{{ user.username }}</span>    
+      {% endfor %}
+      님이 좋아합니다!
     {% else %}
-      <a href="{% url 'posts:like' post.id %}"><i class="far fa-heart" style="color:#BDBDBD"></i></a>
+      <a href="{% url 'posts:like' post.id %}"><i class="far fa-heart" style="color:#BDBDBD"></i></a><br>
+       {% for user in post.like_users.all %}
+        <span style="color:tomato">{{ user.username }}</span>    
+      {% endfor %}
+      님이 좋아합니다!
     {% endif %}
     {% comment %} <h5 class="card-title">Card title</h5> {% endcomment %}
     <p class="card-text">{{ post.content }}</p>
