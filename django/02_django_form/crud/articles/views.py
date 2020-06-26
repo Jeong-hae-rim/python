@@ -6,6 +6,8 @@ from .forms import ArticleForm
 # Create your views here.
 def index(request):
     articles = Article.objects.all()
+    print("----------------------------------------------------------")
+   
     context = {
         'articles': articles,
     }

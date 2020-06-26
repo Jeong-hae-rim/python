@@ -1,8 +1,47 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="row row-cols-3">
+  <div class="row row-cols-2">
   {% for post in posts %}
     {% include 'posts/card.html' %} 
   {% endfor %}
    </div> 
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  // 1. 누구를
+  var likeButtons = document.querySelectorAll('.fa-heart')
+  var dd = document.getElementById('dd')
+  
+  //console.log(likeButtons)
+  likeButtons.forEach(function(likeButton){
+    //console.log(likeButtons)
+    // 2. 어떻게 했을 때
+    likeButton.addEventListener('click', function(event){
+      var targetId = event.target.dataset.id
+
+      //무조건 ``으로 써야 함
+      axios.get(`/posts/${targetId}/like/`) // 앞에 루트를 붙인 이유는 최상단으로 가서 url을 시작하란 의미
+      .then(function(res){
+        console.log(res.data.liked)
+        console.log(res.data.li)
+        if (res.data.liked){
+          //True : 좋아요 누른 경우
+          console.log(dd)
+          event.target.style.color = 'tomato';
+          event.target.classList.remove('far');
+          event.target.classList.add('fas');
+        }
+        else{
+          //False : 취소한 경우
+          console.log(dd)
+          event.target.style.color = '#BDBDBD';
+          event.target.classList.remove('fas');
+          event.target.classList.add('far');
+        }
+      })
+    })
+  })
+  // 3. 어떤 행동을 한다.
+</script>
 {% endblock %}

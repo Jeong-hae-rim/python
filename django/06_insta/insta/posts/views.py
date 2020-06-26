@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from .forms import PostForm
 from .models import Post
+
 
 # Create your views here.
 def index(request):
@@ -40,8 +42,24 @@ def like(request, post_pk):
     if post in user.like_posts.all():
         #이미 누른 경우
         user.like_posts.remove(post)
+        liked = False
     else:
         #아직 안 누른 경우
         user.like_posts.add(post)
-    return redirect('posts:index')
+        liked = True
+    #return redirect('posts:index')
+    print("like 함수")
+    likedalls = post.like_users.all()
+    li = []
+    for likedall in likedalls:
+        li.append(likedall.username)
+    print(li)
+    context = {
+        'msg': '게시글을 좋아합니다.',
+        'liked': liked,
+        'li':li,
+      
+    }
+
+    return JsonResponse(context)
 
