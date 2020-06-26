@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+from .forms import PostForm
 from .models import Post
 
 # Create your views here.

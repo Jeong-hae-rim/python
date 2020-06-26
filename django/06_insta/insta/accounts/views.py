@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import CustomUserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm
+from .models import User
 
 # Create your views here.
 def signup(request):
@@ -11,7 +13,7 @@ def signup(request):
         return redirect('posts:index')
 
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
@@ -46,3 +48,34 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('accounts:login')
+
+
+def profile(request, username):
+    User = get_user_model()
+    #User.objects.get(username=username)
+    user_profile = get_object_or_404(get_user_model(), username=username)
+
+    context = {
+        'user_profile': user_profile,
+    }
+    return render(request, 'accounts/profile.html', context)
+
+
+@login_required
+def follow(request, user_pk):
+    me = request.user
+    you = get_object_or_404(get_user_model(), pk=user_pk)
+
+    if me == you:
+        return redirect('posts:index')
+
+    # if me in you.follower.all():
+    if you in me.follow.all():
+        # 이미 팔로우하고 있었음
+        # you.follower.remove(me)
+        me.follow.remove(you)
+    else:
+        # 아직 팔로우 안 함
+        # you.follower.add(me)
+        me.follow.add(you)
+    return redirect('accounts:profile', you.username)
