@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block link %}
+  <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+{% endblock  %}
+
+{% block content %}
+    {% include 'contents/nav.html' %}
+
+        <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      {% include 'contents/sidenav.html' %}
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-12">
+            </div>
+          </div>
+          <div class="page-header">
+            <nav aria-label="breadcrumb">
+              <ul class="breadcrumb">
+              </ul>
+            </nav>
+          </div>
+          <div class="row">
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-info card-img-holder text-white">
+                <div class="card-body">
+                  <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>
+                  <h4 class="font-weight-normal mb-3">API 
+                    <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                    <br> All
+                  </h4>
+                  <h2 class="mb-5">5000</h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-success card-img-holder text-white">
+                <div class="card-body">
+                  <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>                  
+                  <h4 class="font-weight-normal mb-3">API 
+                    <i class="mdi mdi-emoticon mdi-24px float-right"></i>
+                    <br> Good Status
+                  </h4>
+                  <h2 class="mb-5">4000</h2>
+                  <h6 class="card-text">Total of 80%</h6>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 stretch-card grid-margin">
+              <div class="card bg-gradient-danger card-img-holder text-white">
+                <div class="card-body">
+                  <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>                                    
+                  <h4 class="font-weight-normal mb-3">API
+                    <i class="mdi mdi-emoticon-sad mdi-24px float-right"></i>
+                    <br> Bad Status
+                  </h4>
+                  <h2 class="mb-5">1000</h2>
+                  <h6 class="card-text">Total of 20%</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-7 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <h4 class="card-title float-left">Area Chart</h4>
+                    <div id="areaChart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>                                     
+                  </div>
+                  <canvas id="areaChart" class="mt-4"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Ranking</h4>
+                                      <table class="table">
+                      <thead>
+                        <tr>
+                          <th>
+                            #
+                          </th>
+                          <th>
+                            Name
+                          </th>
+                          <th>
+                            Progress
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            1
+                          </td>
+                          <td>
+                            Herman Beck
+                          </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            2
+                          </td>
+                          <td>
+                            Messsy Adam
+                          </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            3
+                          </td>
+                          <td>
+                            John Richards
+                          </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            4
+                          </td>
+                          <td>
+                            Peter Meggik
+                          </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            5
+                          </td>
+                          <td>
+                            Edward
+                          </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            5
+                          </td>
+                          <td>
+                            Ronald
+                          </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-gradient-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>                                                   
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Recent Tickets</h4>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>
+                            Assignee
+                          </th>
+                          <th>
+                            Subject
+                          </th>
+                          <th>
+                            Status
+                          </th>
+                          <th>
+                            Last Update
+                          </th>
+                          <th>
+                            Tracking ID
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <img src="{% static 'images/faces/face1.jpg' %}" class="mr-2" alt="image">
+                            David Grey
+                          </td>
+                          <td>
+                            Fund is not recieved
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-success">DONE</label>
+                          </td>
+                          <td>
+                            Dec 5, 2017
+                          </td>
+                          <td>
+                            WD-12345
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <img src="{% static 'images/faces/face2.jpg' %}" class="mr-2" alt="image">
+                            Stella Johnson
+                          </td>
+                          <td>
+                            High loading time
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-warning">PROGRESS</label>
+                          </td>
+                          <td>
+                            Dec 12, 2017
+                          </td>
+                          <td>
+                            WD-12346
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <img src="{% static 'images/faces/face3.jpg' %}" class="mr-2" alt="image">
+                            Marina Michel
+                          </td>
+                          <td>
+                            Website down for one week
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-info">ON HOLD</label>
+                          </td>
+                          <td>
+                            Dec 16, 2017
+                          </td>
+                          <td>
+                            WD-12347
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <img src="{% static 'images/faces/face4.jpg' %}" class="mr-2" alt="image">
+                            John Doe
+                          </td>
+                          <td>
+                            Loosing control on server
+                          </td>
+                          <td>
+                            <label class="badge badge-gradient-danger">REJECTED</label>
+                          </td>
+                          <td>
+                            Dec 3, 2017
+                          </td>
+                          <td>
+                            WD-12348
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        {% include 'contents/footer.html' %}
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+{% endblock %}
+
+{% block script %}
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'vendors/js/vendor.bundle.addons.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/misc.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'js/chart.js' %}"></script>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock  %}
