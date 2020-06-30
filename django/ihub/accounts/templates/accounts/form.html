@@ -15,18 +15,26 @@
   
   <div class="container-fluid page-body-wrapper">
       {% if request.resolver_match.url_name == 'signup' %}
-    <div class="main-panel" style="margin:100px;">
-        <h1 class="text-center">회원가입</h1>
-      {% else %}
-        <h1>로그인</h1>
-      {% endif %}
+    <div class="main-panel">
+      <div class="content-wrapper">
+          <h1 class="text-center">회원가입</h1>
+        {% else %}
+        <div class="main-panel">
+          <div class="content-wrapper">
+              <h1 class="text-center">로그인</h1>
+            {% endif %}
 
-      <div class="text-center" style="margin-right:100px; margin-left:100px; padding:3rem;">
-        <form action="" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          {% bootstrap_form form %}
-          <button class="btn btn-primary">저장</button>
-        </form>
+            <div style="margin-right:100px; margin-left:100px; padding:3rem;">
+              <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <div class="text-center">
+                  <button class="btn btn-primary">저장</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

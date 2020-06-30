@@ -6,37 +6,51 @@ from .models import User
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
-        label='ID', 
+        label='사용자 ID', 
         required=True,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': '아이디를 입력해주세요.'
+                'placeholder': '아이디를 입력해주세요.',
+                'ime-mode': 'disabled'
             }
         )
     )
     password1 = forms.CharField(
-        label='Password', 
+        label='비밀번호', 
         required=True,
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': '비밀번호를 입력해주세요.'
+                'placeholder': '비밀번호를 입력해주세요.',
+                'ime-mode': 'disabled'
             }
         )
     )
     password2 = forms.CharField(
-        label='Password',
+        label='비밀번호 재입력',
         required=True,
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': '비밀번호를 다시 입력해주세요.'
+                'placeholder': '비밀번호를 다시 입력해주세요.',
+                'ime-mode': 'disabled'
             }
         )
+    )
+
+    email = forms.EmailField(
+        label='이메일', 
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'aaa@naver.com'
+            }
+        )    
     )
 
     class Meta:
         # 연결하고 싶은 모델이 들어간다
         model = get_user_model()
-        fields = ('username', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2', 'email', )
