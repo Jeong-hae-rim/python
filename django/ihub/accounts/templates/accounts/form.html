@@ -1,16 +1,52 @@
 {% extends 'base.html' %}
-{% block content %}
 {% load bootstrap4 %}
+{% load static %}
+
+{% block link %}
+  <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+{% endblock  %}
+
+{% block content %}
+  {% include 'nav.html' %}
   {% comment %} <h1>{{ request.resolver_match.url_name }}</h1> {% endcomment %}
-  {% if request.resolver_match.url_name == 'signup' %}
-    <h1>회원가입</h1>
-  {% else %}
-    <h1>로그인</h1>
-  {% endif %}
   
-  <form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button class="btn btn-primary">저장</button>
-  </form>
+  <div class="container-fluid page-body-wrapper">
+      {% if request.resolver_match.url_name == 'signup' %}
+    <div class="main-panel" style="margin:100px;">
+        <h1 class="text-center">회원가입</h1>
+      {% else %}
+        <h1>로그인</h1>
+      {% endif %}
+
+      <div class="text-center" style="margin-right:100px; margin-left:100px; padding:3rem;">
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <button class="btn btn-primary">저장</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% include 'footer.html' %}
+{% endblock %}
+
+{% block script %}
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'vendors/js/vendor.bundle.addons.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/misc.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'js/chart.js' %}"></script>
+  <script src="{% static 'js/dashboard.js' %}"></script>
 {% endblock  %}

@@ -1,9 +1,41 @@
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
 from django.contrib.auth import get_user_model
+from django import forms
+from .models import User
 # get_user_model => AUTH_USER_MODEL에 적용시킨 모델 클래스
 
 class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(
+        label='ID', 
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '아이디를 입력해주세요.'
+            }
+        )
+    )
+    password1 = forms.CharField(
+        label='Password', 
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '비밀번호를 입력해주세요.'
+            }
+        )
+    )
+    password2 = forms.CharField(
+        label='Password',
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '비밀번호를 다시 입력해주세요.'
+            }
+        )
+    )
+
     class Meta:
         # 연결하고 싶은 모델이 들어간다
         model = get_user_model()
