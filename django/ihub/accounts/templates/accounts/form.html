@@ -28,9 +28,15 @@
               <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% bootstrap_form form %}
+                {% if request.resolver_match.url_name == 'signup' %}
                 <div class="text-center">
-                  <button class="btn btn-primary">저장</button>
+                  <button class="btn btn-primary">SAVE</button>
                 </div>
+                {% else %}
+                 <div class="text-center">
+                  <button class="btn btn-primary">LOGIN</button>
+                </div>
+                {% endif %}
               </form>
             </div>
           </div>

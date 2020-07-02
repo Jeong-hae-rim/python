@@ -17,7 +17,7 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <!-- All Status Box -->
-          <div class="row">
+          <div class="row" style="paddig-right:50px">
             <div class="col-md-4 stretch-card grid-margin">
               <div class="card bg-gradient-info card-img-holder text-white" style='height:150px;'>
                 <div class="card-body">
@@ -64,7 +64,7 @@
                   <div class="search-field d-none d-md-block col-9">
                     <div class="input-group">
                       <form class="d-flex align-items-center h-100" autocomplete="off">
-                        <input id="myInput" name="myCountry" type="text" class="form-control bg-transparent autocomplete" style="border:1px solid #F2F2F2; width:700px; height:46px;" placeholder="API명을 입력하세요">
+                        <input id="myInput" name="myCountry" type="text" class="form-control bg-transparent autocomplete" style="border:1px solid #F2F2F2; width:650px; height:46px;" placeholder="API명을 입력하세요">
                       </form>
                         <div class="input-group-prepend bg-transparent">
                           <button data-toggle="modal" data-target="#modal-detail" id="userSearch" class="border-0"><i class="input-group-text border-0 mdi mdi-magnify"></i></button>               
@@ -74,7 +74,7 @@
                   
                   <div class="select-bar col-3">
                     <form action="" method="GET">
-                      <select class="form-control bg-transparent" style="height:45px" name="순서">
+                      <select class="form-control bg-transparent" style="height:45px; font-family: 'Noto Sans KR', sans-serif; name="순서">
                         <option value="">Select</option>
                         <option value="이름순">이름순</option>
                         <option value="최신순">최신순</option>
@@ -83,8 +83,8 @@
                     </form>
                   </div>
                 </div>
-                <div class="table-responsive">
-                  <table class="table" style="text-align:center">
+                <div class="table-responsive d-flex justify-content-center">
+                  <table class="table" style="text-align:center; width:90%;">
                     <thead>
                       <tr>
                         <th>
@@ -324,10 +324,10 @@
               document.querySelector('#chartdiv').innerHTML =''
               document.querySelector('.modal-title').innerHTML = res.data.api_name
               document.querySelector('.modal-body-div').innerHTML = 
-              '<div>최종수정일 : ' + res.data.latest_modified_date + '</div>' +
-              '<div>저작권자명 : ' + res.data.copyright + '</div>' +
-              '<div>라이센스 : ' + res.data.copyright_range + '</div>' +
-              '<div>다운로드수 : ' + res.data.download_users + '</div>'
+              '<div>최종 수정일 : ' + res.data.latest_modified_date + '</div>' +
+              '<div>저작권자 명 : ' + res.data.copyright + '</div>' +
+              '<div>' + res.data.copyright_range + '</div>' +
+              '<div>다운로드 수 : ' + res.data.download_users + '</div>'
 
               axios.get(`/apis/${targetId}/graph/`)
                     .then(res => {
@@ -386,23 +386,23 @@
         let status_code = res.data.latest_status
 
         if(status_code == 'INFO-000'){
-          api_status = '정상';
+          api_status = 'GOOD';
           document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-success')
         } else if(status_code == 'INFO-100' ){
-            api_status = '인증키오류'
+            api_status = 'KEY ERROR'
             document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
         } else if(status_code == 'ERROR-500' ){
-            api_status = '서버오류'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-danger')
+            api_status = 'SERVER ERROR'
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
         } else if(status_code == 'ERROR-600'){
-            api_status = '데이터베이스오류'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-danger')
+            api_status = 'DB ERROR'
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
         } else if(status_code == 'ERROR-601'){
-            api_status = 'SQL문장오류'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-danger')
+            api_status = 'SQL ERROR'
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
         } else {
-            api_status = '비정상'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-primary')
+            api_status = ''
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-danger')
         }
           document.querySelector('#api{{ api.pk }}').innerHTML = api_status;
       })
