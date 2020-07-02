@@ -9184,7 +9184,6 @@ pre code {
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 50px;
   margin-right: -20px;
   margin-left: -20px;
 }

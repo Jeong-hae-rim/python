@@ -5,26 +5,39 @@ from django.core import serializers
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-import json, os, urllib.request, mimetypes, time
+import json, os, urllib.request, mimetypes, time, dateutil.parser
 from pprint import pprint
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from .models import Api
 from statuses.models import Status
-
+from datetime import timedelta
+import pytz
 
 # Create your views here.
 def index(request):
     apis = Api.objects.all()
+    total_apis = apis.count()
+    #good_apis
+    bad_apis = 0
+    for api in apis:
+        latest_status = Status.objects.filter(api_id=api.id).latest('updated_time')
+        print(latest_status.status)
+        if latest_status.status != 'INFO-000':
+            bad_apis += 1
+   
     context = {
-        'apis' : apis
+        'apis' : apis,
+        'total_apis' : total_apis,
+        'good_apis' : total_apis - bad_apis,
+        'bad_apis' : bad_apis,
     }
     return render(request, 'apis/index.html', context)
 
 def detail(request, pk):
     # 추후 누적값을 저장할 코드 구현 --> Status app (DB 저장)
     api = get_object_or_404(Api,pk=pk)
-    #print(api.download_users)
+    # print(api.download_users)
     context = {
         'msg' : 'success',
         'api_name' : api.api_name,
@@ -57,6 +70,7 @@ def status(request, pk):
     return JsonResponse(context) 
 
 def download(request, pk):
+    user = request.user
     api = get_object_or_404(Api, pk=pk)
     file_path = os.path.join(settings.MEDIA_ROOT, api.api_file)
     print(file_path)
@@ -68,57 +82,33 @@ def download(request, pk):
     raise Http404
 
 def graph(request, pk):
-    #statues = get_object_or_404(Status, pk=pk)
-    #var data =  [{
-    #    "date": new Date(2020, 07, 01, 10, 1),
-    #    "value":1,
-    #    "status":"정상"
-    #}];
-
-    statues = Status.objects.filter(api_id=pk)
-    # var data =  [{
-    #     "date": "datetime.datetime",
-    #     "value":1,
-    #     "status":"정상"
-    # }]
-    context = {
-        "msg" : "success"
-    }
-    return JsonResponse(context)
-    
-def ranking(request):
-    url = 'http://data.seoul.go.kr/'
-    print('------------------------')
-    options = webdriver.ChromeOptions()
-    options.add_argument('headless')
-    options.add_argument('window-size=1920x1080')
-    options.add_argument("disable-gpu")
-    # 혹은 options.add_argument("--disable-gpu")
-
-    driver = webdriver.Chrome(
-        ChromeDriverManager().install(), chrome_options=options)
-    driver.get(url)
-    time.sleep(1)
-    api_list = driver.find_elements_by_xpath(
-        '//*[@id="tabPopData1"]/ul/li/a')
     result = []
-    api_rank = 1
-    for api in api_list:
-        # print(dir(api))
-        api_name = api.find_element_by_class_name('bbs-txt').text
-        pprint(api_name)
-        api_url = api.get_attribute('href')
-        api_obj = {
-            'api_name': api_name,
-            'api_url': api_url,
-            'api_rank': api_rank,
+    local_timezone = pytz.timezone('Asia/Seoul')
+
+    statuses = Status.objects.filter(api_id=pk, updated_time__range=[datetime.now()-timedelta(days=3), datetime.now()])
+
+    for status in statuses:
+        if status.status == 'INFO-000':
+            value_val = 1
+            status_val = '정상'
+        else:
+            value_val = 0
+            status_val = '다운'
+            
+        # 타임존 변경해야 그래프에 정상 출력
+        date = status.updated_time.strftime("%Y-%m-%d %H:%M:%S")
+        date_str = dateutil.parser.parse(date)
+        local_date = date_str.replace(tzinfo=pytz.utc).astimezone(local_timezone)
+
+        status_obj = {
+            'date': local_date,
+            'value': value_val,
+            'status': status_val,
         }
-        result.append(api_obj)
-        api_rank += 1
-    print(result[0].get('api_name'))
+        result.append(status_obj)
+
     context = {
-        'msg' : 'success',
-        'result': result,
+        "msg" : "success",
+        "result" : result
     }
     return JsonResponse(context)
-

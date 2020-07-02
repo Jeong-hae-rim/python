@@ -9,14 +9,14 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('accounts:profile', request.user.username)
+        return redirect('apis:index', request.user.username)
  
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('accounts:profile', request.user.username)
+            return redirect('apis:index', request.user.username)
     else:
         form = CustomUserCreationForm()
     context = {
@@ -27,14 +27,14 @@ def signup(request):
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('accounts:profile', request.user.username)
+        return redirect('apis:index', request.user.username)
         
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
-            return redirect('accounts:profile', request.user.username)
+            return redirect('apis:index', request.user.username)
 
     else:
         form = AuthenticationForm()

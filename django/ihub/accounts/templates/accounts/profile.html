@@ -1,40 +1,79 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+{% endblock  %}
+
 {% block content %}
-  <!-- jumbotron start -->
-  <div class="jumbotron">
-    <div class="row">
-      <div class="col-4">
-        <div class="row">
-          <img class="col-12" src="{{ user_profile.image.url }}" alt="">
+  {% include 'nav.html' %}
+  <div class="container-fluid page-body-wrapper">
+    <div class="main-panel">
+      <div class="content-wrapper" style="height:100%">
+        <div class="row d-flex justify-content-center">
+          <div class="card" style="width:90%">
+            <div class="card-body">
+              <h5 class="mb-3">{{ user_profile.username }} 님, 환영합니다!</h5>
+                <table class="table" style="text-align:center">
+                  <thead>
+                    <tr>
+                      <th>
+                        API Name
+                      </th>
+                      <th>
+                        Condition
+                      </th>
+                      <th>
+                        Last Update
+                      </th>
+                      <th>
+                        Download Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for api in apis %}
+                      <tr>
+                        <td class="text-left">
+                          <a href="" class="text-decoration-none" data-toggle="modal" data-target="#modal-detail" id='detail' data-id='{{ api.pk }}'>{{ api.api_name }}</a>
+                        </td>
+                        <td>
+                          <label><span id="api{{ api.pk }}"></span></label>
+                        </td>
+                        <td>
+                          {{ api.latest_modified_date }}
+                        </td>
+                        <td>
+                          <i class="mdi mdi-arrow-down-bold-circle-outline"></i>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-8">
-        <h5>{{ user_profile.username }}</h5>
-        <p>팔로우 {{ user_profile.follow.count }}명 팔로워 {{ user_profile.follower.count }}명</p>
-        {% if user != user_profile %}
-          {% if user_profile in user.follow.all %}
-            <a class="btn btn-primary" href="{% url 'accounts:follow' user_profile.id %}">팔로우취소</a>
-          {% else %}
-            <a class="btn btn-primary" href="{% url 'accounts:follow' user_profile.id %}">팔로우</a>
-          {% endif %}
-        {% endif %}
       </div>
     </div>
-    <!-- jumbotron end -->
-
   </div>
+  {% include 'footer.html' %}
+{% endblock  %}
 
-  <hr>
-
-  <div class="row row-cols-3">
-    {% for post in user_profile.post_set.all %}
-      <div class="col">
-        <div class="card">
-          <img src="{{ post.image.url }}" alt="">
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-
-
+{% block script %}
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <script src="{% static 'vendors/js/vendor.bundle.addons.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/misc.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'js/chart.js' %}"></script>
+  <script src="{% static 'js/dashboard.js' %}"></script>
 {% endblock  %}

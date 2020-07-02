@@ -13,14 +13,14 @@
         <a class="nav-link" href="{% url 'accounts:profile' user.username %}">{{ user.username }}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
+        <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
       </li>
     {% else %}
       <li class="nav-item">
-      <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
+      <a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:login' %}">로그인</a>
+        <a class="nav-link" href="{% url 'accounts:login' %}">Log In</a>
       </li>
     {% endif %}
 </nav>
