@@ -14,30 +14,37 @@
   {% comment %} <h1>{{ request.resolver_match.url_name }}</h1> {% endcomment %}
   
   <div class="container-fluid page-body-wrapper">
-      {% if request.resolver_match.url_name == 'signup' %}
+    {% if request.resolver_match.url_name == 'signup' %}
     <div class="main-panel">
       <div class="content-wrapper">
-          <h1 class="text-center">회원가입</h1>
-        {% else %}
-        <div class="main-panel">
-          <div class="content-wrapper">
+        <div class="row d-flex justify-content-center">
+          <div class="card" style="width:60%">
+            <div class="card-body">
+              <h1 class="text-center">회원가입</h1>
+    {% else %}
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="row d-flex justify-content-center">
+          <div class="card" style="width:60%">
+            <div class="card-body">
               <h1 class="text-center">로그인</h1>
-            {% endif %}
+    {% endif %}
 
-            <div style="margin-right:200px; margin-left:200px; padding:3rem;">
-              <form action="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                {% if request.resolver_match.url_name == 'signup' %}
-                <div class="text-center">
-                  <button class="btn btn-primary">SAVE</button>
-                </div>
-                {% else %}
-                 <div class="text-center">
-                  <button class="btn btn-primary">LOGIN</button>
-                </div>
-                {% endif %}
-              </form>
+              <div style="padding:3rem;">
+                <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {% bootstrap_form form %}
+                  {% if request.resolver_match.url_name == 'signup' %}
+                  <div class="text-center">
+                    <button class="btn btn-primary">SAVE</button>
+                  </div>
+                  {% else %}
+                  <div class="text-center">
+                    <button class="btn btn-primary">LOGIN</button>
+                  </div>
+                  {% endif %}
+                </form>
+              </div>
             </div>
           </div>
         </div>
