@@ -1,0 +1,46 @@
+<!-- All status box -->
+<script>
+  document.querySelector('#total_apis').innerHTML = {{ total_apis }}
+  document.querySelector('#good_apis').innerHTML = {{ good_apis }}
+  document.querySelector('#bad_apis').innerHTML = {{ bad_apis }}
+</script>
+
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- Search Status -->
+<script>
+  let api_pk = '';
+  {% for api in apis %}
+      document.querySelector('#api{{ api.pk }}').innerHTML = '';
+      // 방법 2. DB에서 status 가져오기
+      api_pk = {{ api.pk }};
+      axios.get(`/apis/${api_pk}/status/`)
+      .then(res => {
+        let status_code = res.data.latest_status
+
+        if(status_code == 'INFO-000'){
+          api_status = 'GOOD';
+          document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-success')
+        } else if(status_code == 'INFO-100' ){
+            api_status = 'KEY ERROR'
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
+        } else if(status_code == 'ERROR-500' ){
+            api_status = 'SERVER ERROR'
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
+        } else if(status_code == 'ERROR-600'){
+            api_status = 'DB ERROR'
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
+        } else if(status_code == 'ERROR-601'){
+            api_status = 'SQL ERROR'
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
+        } else {
+            api_status = ''
+            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-danger')
+        }
+          document.querySelector('#api{{ api.pk }}').innerHTML = api_status;
+      })
+  {% endfor %}
+</script>

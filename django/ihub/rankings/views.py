@@ -18,6 +18,8 @@ def index(request):
         ChromeDriverManager().install(), chrome_options=options)
     driver.get(url)
     time.sleep(1)
+
+    # 조회 랭킹
     api_list = driver.find_elements_by_xpath(
         '//*[@id="tabPopData1"]/ul/li/a')
     result = []
@@ -34,9 +36,25 @@ def index(request):
         }
         result.append(api_obj)
         api_rank += 1
-    # print(result[0].get('api_name'))
+
+    # 다운로드 랭킹
+    click_download = driver.find_element_by_css_selector('#popdata_css_1_2')
+    click_download.click()
+    download_list = driver.find_elements_by_xpath(
+        '//*[@id="tabPopData2"]/ul/li/a')
+    d_result = []
+    d_api_rank = 1
+    for down in download_list:
+        down_name = down.find_element_by_class_name('bbs-txt').text
+        down_obj = {
+            'down_name': down_name,
+            'd_api_rank': d_api_rank,
+        }
+        d_result.append(down_obj)
+        d_api_rank += 1
+        print(d_result)
     context = {
         'result': result,
+        'd_result': d_result,
     }
-    #return render(request, 'rankings/index.html', context)
     return JsonResponse(context)

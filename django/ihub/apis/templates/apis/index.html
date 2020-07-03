@@ -10,7 +10,7 @@
 
 
 {% block content %}
-    {% include 'nav.html' %}
+  {% include 'nav.html' %}
 
     <div class="container-fluid page-body-wrapper">
       <!-- Main Panel Start -->
@@ -19,9 +19,9 @@
           <!-- All Status Box -->
           <div class="row" style="paddig-right:50px">
             <div class="col-md-4 stretch-card grid-margin">
-              <div class="card bg-gradient-info card-img-holder text-white" style='height:150px;'>
+              <div class="card bg-gradient-primary card-img-holder text-white" style='height:150px;'>
                 <div class="card-body">
-                  <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>
+                  <img src="{% static 'images/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>
                   <h4 class="font-weight-normal mb-3">API 
                     <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                     <br> All
@@ -33,7 +33,7 @@
             <div class="col-md-4 stretch-card grid-margin">
               <div class="card bg-gradient-success card-img-holder text-white" style='height:150px;'>
                 <div class="card-body">
-                  <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>                  
+                  <img src="{% static 'images/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>                  
                   <h4 class="font-weight-normal mb-3">API 
                     <i class="mdi mdi-emoticon mdi-24px float-right"></i>
                     <br> Good Status
@@ -45,7 +45,7 @@
             <div class="col-md-4 stretch-card grid-margin">
               <div class="card bg-gradient-danger card-img-holder text-white" style='height:150px;'>
                 <div class="card-body">
-                  <img src="{% static 'images/dashboard/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>                                    
+                  <img src="{% static 'images/circle.svg' %}" class="card-img-absolute" alt="circle-image"/>                                    
                   <h4 class="font-weight-normal mb-3">API
                     <i class="mdi mdi-emoticon-sad mdi-24px float-right"></i>
                     <br> Bad Status
@@ -105,7 +105,8 @@
                       {% for api in apis %}
                         <tr>
                           <td class="text-left">
-                            <a href="" class="text-decoration-none" data-toggle="modal" data-target="#modal-detail" id='detail' data-id='{{ api.pk }}'>{{ api.api_name }}</a>
+                            <a href="" class="text-decoration-none" data-toggle="modal" data-target="#modal-detail" id="detail" data-id="{{ api.pk }}"  
+                              onMouseOver="this.style.color='#AC58FA'" onMouseOut="this.style.color='#000'">{{ api.api_name }}</a>
                           </td>
                           <td>
                             <label><span id="api{{ api.pk }}"></span></label>
@@ -114,7 +115,9 @@
                             {{ api.latest_modified_date }}
                           </td>
                           <td>
-                            <i class="mdi mdi-arrow-down-bold-circle-outline"></i>
+                            <a href="">
+                              <i class="mdi mdi-arrow-down-bold-circle-outline text-primary" style="font-size:25px"></i>
+                            </a>
                           </td>
                         </tr>
                       {% endfor %}
@@ -124,15 +127,15 @@
                 <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
                   <ul class="pagination">
                     <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous">
+                      <a class="page-link" href="#" aria-label="Previous" onMouseOut="this.style.color='#000'">
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#" onMouseOut="this.style.color='#000'">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#" onMouseOut="this.style.color='#000'">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#" onMouseOut="this.style.color='#000'">3</a></li>
                     <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next">
+                      <a class="page-link" href="#" aria-label="Next" onMouseOut="this.style.color='#000'">
                         <span aria-hidden="true">&raquo;</span>
                       </a>
                     </li>
@@ -150,283 +153,11 @@
       </div>
       <!-- main-panel ends -->
     </div>
-<!-- Resources -->
-<script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-
-<!-- All status box -->
-<script>
-  document.querySelector('#total_apis').innerHTML = {{ total_apis }}
-  document.querySelector('#good_apis').innerHTML = {{ good_apis }}
-  document.querySelector('#bad_apis').innerHTML = {{ bad_apis }}
-</script>
-<!-- Search bar -->
-<script>
-    // 검색을 클릭했을 경우
-    var showSearchDetail = document.querySelector('#userSearch');
-    console.log(showSearchDetail);
-
-    showSearchDetail.addEventListener('click', function(event){
-        document.querySelector('.modal-title').innerHTML = 'API 명을 정확히 입력해주세요'
-        document.querySelector('.modal-body-div').innerHTML = ''
-
-        let searchString = document.querySelector('#myInput');
-        console.log(searchString);
-        axios.get(`/apis/search/${searchString.value}/`)
-        .then(res => {
-            console.log(res.data.api_pk);
-            let targetId = res.data.api_pk;
-            axios.get(`/apis/${targetId}/detail/`)
-            .then(res => {
-                console.log(res.data)
-                document.querySelector('.modal-body-div').innerHTML =''
-                document.querySelector('#chartdiv').innerHTML =''
-                document.querySelector('.modal-title').innerHTML = res.data.api_name
-                document.querySelector('.modal-body-div').innerHTML = 
-                '<div>최종수정일 : ' + res.data.latest_modified_date + '</div>' +
-                '<div>저작권자명 : ' + res.data.copyright + '</div>' +
-                '<div>라이센스 : ' + res.data.copyright_range + '</div>' +
-                '<div>다운로드수 : ' + res.data.download_users + '</div>'
-            })
-        })
 
 
-    })
-</script>
-
-<!-- Auto Complete -->
-<script>
-    var api_names = []
-    {% for api in apis %}
-        api_names.push('{{ api.api_name }}')
-    {% endfor %}
-    console.log(api_names)
-
-    function autocomplete(inp, arr) {
-    /*the autocomplete function takes two arguments,
-    the text field element and an array of possible autocompleted values:*/
-    var currentFocus;
-    /*execute a function when someone writes in the text field:*/
-    inp.addEventListener("input", function(e) {
-        var a, b, i, val = this.value;
-        /*close any already open lists of autocompleted values*/
-        closeAllLists();
-        if (!val) { return false;}
-        currentFocus = -1;
-        /*create a DIV element that will contain the items (values):*/
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        /*append the DIV element as a child of the autocomplete container:*/
-        this.parentNode.appendChild(a);
-        /*for each item in the array...*/
-        for (i = 0; i < arr.length; i++) {
-            /*check if the item starts with the same letters as the text field value:*/
-            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-            /*create a DIV element for each matching element:*/
-            b = document.createElement("DIV");
-            /*make the matching letters bold:*/
-            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-            b.innerHTML += arr[i].substr(val.length);
-            /*insert a input field that will hold the current array item's value:*/
-            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-            /*execute a function when someone clicks on the item value (DIV element):*/
-                b.addEventListener("click", function(e) {
-                /*insert the value for the autocomplete text field:*/
-                inp.value = this.getElementsByTagName("input")[0].value;
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
-                closeAllLists();
-            });
-            a.appendChild(b);
-            }
-        }
-    });
-    /*execute a function presses a key on the keyboard:*/
-    inp.addEventListener("keydown", function(e) {
-        var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-            /*If the arrow DOWN key is pressed,
-            increase the currentFocus variable:*/
-            currentFocus++;
-            /*and and make the current item more visible:*/
-            addActive(x);
-        } else if (e.keyCode == 38) { //up
-            /*If the arrow UP key is pressed,
-            decrease the currentFocus variable:*/
-            currentFocus--;
-            /*and and make the current item more visible:*/
-            addActive(x);
-        } else if (e.keyCode == 13) {
-            /*If the ENTER key is pressed, prevent the form from being submitted,*/
-            e.preventDefault();
-            if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
-            if (x) x[currentFocus].click();
-            }
-        }
-    });
-    function addActive(x) {
-        /*a function to classify an item as "active":*/
-        if (!x) return false;
-        /*start by removing the "active" class on all items:*/
-        removeActive(x);
-        if (currentFocus >= x.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = (x.length - 1);
-        /*add class "autocomplete-active":*/
-        x[currentFocus].classList.add("autocomplete-active");
-    }
-    function removeActive(x) {
-        /*a function to remove the "active" class from all autocomplete items:*/
-        for (var i = 0; i < x.length; i++) {
-        x[i].classList.remove("autocomplete-active");
-        }
-    }
-    function closeAllLists(elmnt) {
-        /*close all autocomplete lists in the document,
-        except the one passed as an argument:*/
-        var x = document.getElementsByClassName("autocomplete-items");
-        for (var i = 0; i < x.length; i++) {
-        if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-        }
-    }
-    }
-    /*execute a function when someone clicks in the document:*/
-    document.addEventListener("click", function (e) {
-        closeAllLists(e.target);
-    });
-  }
-</script>
-
-<!-- Auto Complete 실행 -->
-<script>
-    autocomplete(document.getElementById("myInput"), api_names);
-</script>
-
-<!-- Modal Detail -->
-<script>
-  var showDetails = document.querySelectorAll('#detail');
-
-  for (var i = 0; i < showDetails.length; i++) {
-    showDetails[i].addEventListener('click', function(event){
-          var targetId = event.target.dataset.id
-          console.log(targetId) 
-          axios.get(`/apis/${targetId}/detail/`)
-          .then(res => {
-              console.log(res.data)
-
-              var download = document.querySelector('#download')
-              download.setAttribute('href', `/apis/${targetId}/download/`);
-              document.querySelector('.modal-body-div').innerHTML =''
-              document.querySelector('#chartdiv').innerHTML =''
-              document.querySelector('.modal-title').innerHTML = '<h2>' + res.data.api_name + '</h2>'
-              document.querySelector('.modal-body-div').innerHTML = 
-              '<div>최종수정일 : ' + res.data.latest_modified_date + '</div>' +
-              '<div>저작권자명 : ' + res.data.copyright + '</div>' +
-              '<div>' + res.data.copyright_range + '</div>' +
-              '<div>다운로드수 : ' + res.data.download_users + '</div>'
-
-              axios.get(`/apis/${targetId}/graph/`)
-                    .then(res => {
-                    //var data = JSON.parse(res.data.result);
-                    var data = res.data.result;
-                    console.log(res.data.result)
-                    
-                    am4core.ready(function() {
-                      am4core.useTheme(am4themes_animated);
-                      var chart = am4core.create("chartdiv", am4charts.XYChart);
-                      chart.paddingRight = 20;
-                      chart.data = data;
-                      chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm:ss";
-
-                      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-                      dateAxis.renderer.minGridDistance = 50;
-                      dateAxis.periodChangeDateFormats.setKey("second", "[bold]date");
-
-                      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-                      valueAxis.tooltip.disabled = true;
-                      valueAxis.renderer.disabled = true;
-
-                      var series = chart.series.push(new am4charts.StepLineSeries());
-                      series.dataFields.dateX = "date";
-                      series.dataFields.valueY = "value";
-                      series.tooltipText = "{date} - {status}";
-                      series.strokeWidth = 3;
-                      
-                      chart.cursor = new am4charts.XYCursor();
-                      chart.cursor.xAxis = dateAxis;
-                      chart.cursor.fullWidthLineX = true;
-                      chart.cursor.lineX.strokeWidth = 0;
-                      chart.cursor.lineX.fill = chart.colors.getIndex(2);
-                      chart.cursor.lineX.fillOpacity = 0.1;
-                      
-                      chart.scrollbarX = new am4core.Scrollbar();
-                      
-                    }); // end am4core.ready()
-                  })
-          })
-      })
-  }
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<!-- Status -->
-<script>
-  let api_pk = '';
-  {% for api in apis %}
-      document.querySelector('#api{{ api.pk }}').innerHTML = '';
-      // 방법 2. DB에서 status 가져오기
-      api_pk = {{ api.pk }};
-      axios.get(`/apis/${api_pk}/status/`)
-      .then(res => {
-        let status_code = res.data.latest_status
-
-        if(status_code == 'INFO-000'){
-          api_status = 'GOOD';
-          document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-success')
-        } else if(status_code == 'INFO-100' ){
-            api_status = 'KEY ERROR'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
-        } else if(status_code == 'ERROR-500' ){
-            api_status = 'SERVER ERROR'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
-        } else if(status_code == 'ERROR-600'){
-            api_status = 'DB ERROR'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
-        } else if(status_code == 'ERROR-601'){
-            api_status = 'SQL ERROR'
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-warning')
-        } else {
-            api_status = ''
-            document.querySelector('#api{{ api.pk }}').setAttribute('class','badge badge-gradient-danger')
-        }
-          document.querySelector('#api{{ api.pk }}').innerHTML = api_status;
-      })
-  {% endfor %}
-</script>
-
-<!-- ranking-->
-<div id="ranking"></div>
-<script>
-  axios.get('/rankings/')
-  .then(res => {
-      console.log(res.data.msg)
-      let result = res.data.result
-      console.log(result[0])
-      ranking = document.querySelector('#ranking-tbody')
-      ranking.innerHTML = ''
-      for(var i = 0; i < 5; i++){
-          console.log(result[i])
-          ranking.innerHTML += "<tr><td class=\"text-center\">"+result[i].api_rank+"</td><td><a class=\"text-decoration-none\" href='"+ result[i].api_url + "'>" + result[i].api_name +"</a></td>" + "<td class=\"text-center\"><i class=\"mdi mdi-arrow-down-bold-circle-outline\"></i></td>"
-          console.log("<td>"+result[i].api_rank+"</td><td><a href='"+ result[i].api_url + "'>" + result[i].api_name +"</a></td></tr>")
-      }
-  })
-</script>
-
+{% comment %} js 파일 {% endcomment %}
+{% include 'apis/auto-complete-js.html' %}
+{% include 'apis/status-js.html' %}
 
 {% endblock %}
 
@@ -436,13 +167,8 @@
   <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
   <script src="{% static 'vendors/js/vendor.bundle.addons.js' %}"></script>
   <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script src="{% static 'js/off-canvas.js' %}"></script>
-  <script src="{% static 'js/misc.js' %}"></script>
-  <!-- endinject -->
   <!-- Custom js for this page-->
-  <script src="{% static 'js/chart.js' %}"></script>
-  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/ranking.js' %}"></script>
+  <script src="{% static 'js/modal.js' %}"></script>
+  <script src="{% static 'js/search.js' %}"></script>
 {% endblock  %}
