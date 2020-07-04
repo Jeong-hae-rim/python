@@ -28,7 +28,7 @@
                     {% for api in apis %}
                         <tr>
                             <td>{{ api.pk }}</td>
-                                <td><a href="" data-toggle="modal" data-target="#modal-detail" id='detail' data-id='{{ api.pk }}'>{{ api.api_name }}</a></td>
+                                <td><a href="" class="text-decoration-none text-body" data-toggle="modal" data-target="#modal-detail" id='detail' data-id='{{ api.pk }}'>{{ api.api_name }}</a></td>
                             <td id='api{{ api.pk }}'></td>
                         </tr>
                     {% endfor %}
