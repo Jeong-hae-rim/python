@@ -1,4 +1,3 @@
-
 axios.get('/rankings/')
 .then(res => {
     console.log(res.data.msg)
@@ -10,16 +9,12 @@ axios.get('/rankings/')
     ranking.innerHTML = ''
     d_ranking.innerHTML = ''
     for(var i = 0; i < 5; i++){
-        console.log(result[i])
         ranking.innerHTML += "<tr><td class=\"text-center\">"+result[i].api_rank
-                            +"</td><td><a class=\"text-decoration-none\" href='"+ result[i].api_url + "' onMouseOver=\"this.style.color='#AC58FA'\" onMouseOut=\"this.style.color='#000'\">" + result[i].api_name +"</a></td>" 
-                            + "<td class=\"text-center\"><a href=''><i class=\"mdi mdi-arrow-down-bold-circle-outline text-primary\" style=\"font-size:25px\"></i></a></td>"
-        console.log("<td>"+result[i].api_rank+"</td><td><a href='"+ result[i].api_url + "'>" + result[i].api_name +"</a></td></tr>")
+                            +"</td><td><a data-toggle='modal' data-target='#modal-detail' onclick='test(\""+ result[i].api_name +"\"); return false;' class=\"text-decoration-none\" href='' onMouseOver=\"this.style.color='#AC58FA'\" onMouseOut=\"this.style.color='#000'\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + result[i].api_name +"</a></td>" 
     }
     for(var j = 0; j < 5; j++){
         d_ranking.innerHTML += "<tr><td class=\"text-center\">"+d_result[j].d_api_rank
-                                +"</td><td><a class=\"text-decoration-none\" href='"+ result[j].api_url + "' onMouseOver=\"this.style.color='#AC58FA'\" onMouseOut=\"this.style.color='#000'\">" + d_result[j].down_name +"</a></td>" 
-                                + "<td class=\"text-center\"><a href=''><i class=\"mdi mdi-arrow-down-bold-circle-outline text-primary\" style=\"font-size:25px\"></i></a></td>"
-        console.log(d_result[1].d_api_rank)
+                                +"</td><td><a data-toggle='modal' data-target='#modal-detail' onclick='test(\""+ d_result[j].down_name +"\"); return false;' class=\"text-decoration-none\" href='' onMouseOver=\"this.style.color='#AC58FA'\" onMouseOut=\"this.style.color='#000'\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + d_result[j].down_name +"</a></td>" 
+
     }
 })

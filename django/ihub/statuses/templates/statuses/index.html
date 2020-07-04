@@ -19,7 +19,6 @@
                     <button id="start" class="btn btn-primary">start</button>
                     <button id="stop" class="btn btn-primary">stop</button>
                 </div>
-
                 <table class="table">
                     <tr>
                         <th>id</th>
@@ -138,11 +137,11 @@ showDetails[i].addEventListener('click', function(event){
                     let api_pk = '{{ api.pk }}';
                     axios.get(`/statuses/${api_pk}/${status_code}`)
                     .then(res => {
-                        console.log('{{ api.api_name }}' + ' status:' + api_status +'save ' + res.data.status_check);
+                        console.log('{{ api.api_id }}' + ' status:' + api_status +' save ' + res.data.status_check);
                     })
                 })    
             {% endfor %}
-        }, 20000);
+        }, 60000 * 10); // 10분
     };
 
     stopCheck = function(){

@@ -22,7 +22,7 @@ showSearchDetail.addEventListener('click', function(event){
             '<div>최종수정일 : ' + res.data.latest_modified_date + '</div>' +
             '<div>저작권자명 : ' + res.data.copyright + '</div>' +
             '<div>라이센스 : ' + res.data.copyright_range + '</div>' +
-            '<div>다운로드수 : ' + res.data.download_users + '</div>'
+            '<div>다운로드수 : ' + res.data.download_count + '</div>'
         })
     })
 

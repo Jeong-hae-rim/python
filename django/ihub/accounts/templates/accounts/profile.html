@@ -13,30 +13,25 @@
     <div class="main-panel">
       <div class="content-wrapper" style="height:100%">
         <div class="row d-flex justify-content-center">
-          <div class="card" style="width:90%">
+          <div class="card" style="width:90%;">
             <div class="card-body">
-              <h5 class="mb-3">{{ user_profile.username }} 님, 환영합니다!</h5>
-                <table class="table" style="text-align:center">
+              <h3 class="mb-3" style="font-family: 'Noto Sans KR', sans-serif;">{{ user.username }} 님, 환영합니다!</h3>
+
+                <table class="table" style="text-align:center; font-family: 'Noto Sans KR', sans-serif;">
                   <thead>
                     <tr>
                       <th>
                         API Name
                       </th>
                       <th>
-                        Condition
-                      </th>
-                      <th>
                         Last Update
-                      </th>
-                      <th>
-                        Download Status
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for api in apis %}
+                    {% for api in download_apis %}
                       <tr>
-                        <td class="text-left">
+                        <td class="text-center">
                           <a href="" class="text-decoration-none" data-toggle="modal" data-target="#modal-detail" id='detail' data-id='{{ api.pk }}'>{{ api.api_name }}</a>
                         </td>
                         <td>
@@ -44,9 +39,6 @@
                         </td>
                         <td>
                           {{ api.latest_modified_date }}
-                        </td>
-                        <td>
-                          <i class="mdi mdi-arrow-down-bold-circle-outline"></i>
                         </td>
                       </tr>
                     {% endfor %}

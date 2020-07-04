@@ -21,6 +21,15 @@
           <div class="card" style="width:60%">
             <div class="card-body">
               <h1 class="text-center">회원가입</h1>
+              <div style="padding:3rem;">
+                <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {% bootstrap_form form %}
+                  <div class="text-center" style="margin-top:50px;">
+                    <button class="btn btn-primary">SAVE</button>
+                  </div>
+                </form>
+              </div>
     {% else %}
     <div class="main-panel">
       <div class="content-wrapper">
@@ -28,23 +37,21 @@
           <div class="card" style="width:60%">
             <div class="card-body">
               <h1 class="text-center">로그인</h1>
-    {% endif %}
-
               <div style="padding:3rem;">
-                <form action="" method="POST" enctype="multipart/form-data">
-                  {% csrf_token %}
-                  {% bootstrap_form form %}
-                  {% if request.resolver_match.url_name == 'signup' %}
-                  <div class="text-center">
-                    <button class="btn btn-primary">SAVE</button>
+                {% bootstrap_form form %}
+                <div class="row d-flex flex-row-reverse justify-content-center" style="margin-top:50px;">
+                  <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="text-center">
+                      <button class="btn btn-primary">LOGIN</button>
+                    </div>
+                  </form>
+                  <div style="margin-right:10px;">
+                    <a href="{% url 'accounts:signup' %}"><button class="btn border-primary">Sign Up</button></a>
                   </div>
-                  {% else %}
-                  <div class="text-center">
-                    <button class="btn btn-primary">LOGIN</button>
-                  </div>
-                  {% endif %}
-                </form>
+                </div>
               </div>
+    {% endif %}
             </div>
           </div>
         </div>

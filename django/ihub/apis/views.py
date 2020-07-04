@@ -4,6 +4,7 @@ from django.forms.models import model_to_dict
 from django.core import serializers
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 import json, os, urllib.request, mimetypes, time, dateutil.parser
 from pprint import pprint
@@ -16,16 +17,23 @@ import pytz
 
 # Create your views here.
 def index(request):
-    apis = Api.objects.all()
-    total_apis = apis.count()
-    #good_apis
+    apis_list = Api.objects.all()
+    total_apis = apis_list.count()
+    paginator = Paginator(apis_list, 5)
+    page = request.GET.get('page')
     bad_apis = 0
-    for api in apis:
-        latest_status = Status.objects.filter(api_id=api.id).latest('updated_time')
-        print(latest_status.status)
-        if latest_status.status != 'INFO-000':
-            bad_apis += 1
-   
+
+    try:
+        apis = paginator.page(page)
+        for api in apis:
+            latest_status = Status.objects.filter(api_id=api.id).latest('updated_time')
+            if latest_status.status != 'INFO-000':
+                bad_apis += 1
+    except PageNotAnInteger:
+        apis = paginator.page(1)
+    except EmptyPage:
+        apis = paginator.page(paginator.num_pages)
+    
     context = {
         'apis' : apis,
         'total_apis' : total_apis,
@@ -49,7 +57,7 @@ def detail(request, pk):
         'copyright' : api.copyright,
         'copyright_range' : api.copyright_range,
         'api_file' : api.api_file,
-        'download_users' : api.download_users.all().count()
+        'download_count' : api.download_count
     }
 
     return JsonResponse(context)
@@ -75,7 +83,10 @@ def status(request, pk):
 def download(request, pk):
     user = request.user
     api = get_object_or_404(Api, pk=pk)
+    user.download_apis.add(api)
     file_path = os.path.join(settings.MEDIA_ROOT, api.api_file)
+    api.download_count = api.download_count + 1
+    api.save()
     print(file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:

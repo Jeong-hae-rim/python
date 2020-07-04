@@ -9,14 +9,14 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('apis:index', request.user.username)
+        return redirect('accounts:profile', request.user.username)
  
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('apis:index', request.user.username)
+            return redirect('accounts:profile', request.user.username)
     else:
         form = CustomUserCreationForm()
     context = {
@@ -34,7 +34,7 @@ def login(request):
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
-            return redirect('apis:index', request.user.username)
+            return redirect('apis:index')
 
     else:
         form = AuthenticationForm()
@@ -53,10 +53,11 @@ def profile(request, username):
     # User = get_user_model()
     # user_profile = User.objects.get(username=username)
 
-    user_profile = get_object_or_404(get_user_model(), username=username)
+    user = get_object_or_404(get_user_model(), username=username)
+    download_apis = user.download_apis.all()
 
     context = {
-        'user_profile': user_profile
+        'download_apis': download_apis
     }
     return render(request, 'accounts/profile.html', context)
 

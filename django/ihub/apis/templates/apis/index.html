@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block link %}
   <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
@@ -60,28 +61,28 @@
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">Recent Status</h4>
-                <div class="row" style="margin-top:20px; margin-bottom:30px;">
-                  <div class="search-field d-none d-md-block col-9">
+                <div class="row d-flex justify-content-end" style="margin-right: 20px; margin-bottom: 30px;">
+                  <div class="search-field">
                     <div class="input-group">
-                      <form class="d-flex align-items-center h-100" autocomplete="off">
-                        <input id="myInput" name="myCountry" type="text" class="form-control bg-transparent autocomplete" style="border:1px solid #F2F2F2; width:650px; height:46px;" placeholder="API명을 입력하세요">
+                      <form autocomplete="off">
+                        <input id="myInput" name="myCountry" type="text" class="border-primary rounded form-control bg-transparent autocomplete" style="width:300px; height:46px;" placeholder="API명을 입력하세요">
                       </form>
                         <div class="input-group-prepend bg-transparent">
-                          <button data-toggle="modal" data-target="#modal-detail" id="userSearch" class="border-0"><i class="input-group-text border-0 mdi mdi-magnify"></i></button>               
+                          <button data-toggle="modal" data-target="#modal-detail" id="userSearch" class="bg-primary border-0 rounded"><i class="input-group-text bg-primary border-0 mdi mdi-magnify" style="color:#fff"></i></button>               
                         </div>
                     </div>
                   </div>
                   
-                  <div class="select-bar col-3">
+                  {% comment %} <div class="select-bar col-3">
                     <form action="" method="GET">
-                      <select class="form-control bg-transparent" style="height:45px; font-family: 'Noto Sans KR', sans-serif; name="순서">
+                      <select class="form-control bg-transparent" style="height:45px; font-family: 'Noto Sans KR', sans-serif;" name="순서">
                         <option value="">Select</option>
                         <option value="이름순">이름순</option>
                         <option value="최신순">최신순</option>
                         <option value="다운로드순">다운로드순</option>
                       </select>
                     </form>
-                  </div>
+                  </div> {% endcomment %}
                 </div>
                 <div class="table-responsive d-flex justify-content-center">
                   <table class="table" style="text-align:center; width:95%;">
@@ -97,7 +98,7 @@
                           Last Update
                         </th>
                         <th>
-                          Download Status
+                          Download
                         </th>
                       </tr>
                     </thead>
@@ -105,8 +106,7 @@
                       {% for api in apis %}
                         <tr>
                           <td class="text-left">
-                            <a href="" class="text-decoration-none" data-toggle="modal" data-target="#modal-detail" id="detail" data-id="{{ api.pk }}"  
-                              onMouseOver="this.style.color='#AC58FA'" onMouseOut="this.style.color='#000'">{{ api.api_name }}</a>
+                            <a href="" class="text-decoration-none" data-toggle="modal" data-target="#modal-detail" id="detail" data-id="{{ api.pk }}">{{ api.api_name }}</a>
                           </td>
                           <td>
                             <label><span id="api{{ api.pk }}"></span></label>
@@ -115,7 +115,7 @@
                             {{ api.latest_modified_date }}
                           </td>
                           <td>
-                            <a href="">
+                            <a href="{% url 'apis:download' api.pk %}" download>
                               <i class="mdi mdi-arrow-down-bold-circle-outline text-primary" style="font-size:25px"></i>
                             </a>
                           </td>
@@ -125,21 +125,42 @@
                   </table>
                 </div>
                 <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
-                  <ul class="pagination">
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Previous" onMouseOut="this.style.color='#000'">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#" onMouseOut="this.style.color='#000'">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#" onMouseOut="this.style.color='#000'">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#" onMouseOut="this.style.color='#000'">3</a></li>
-                    <li class="page-item">
-                      <a class="page-link" href="#" aria-label="Next" onMouseOut="this.style.color='#000'">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
+                 {% if apis.has_other_pages %}
+
+                    <ul class="pagination">
+
+                      {% if apis.has_previous %}
+
+                        <li><a class="page-link text-body" aria-label="Previous" href="?page={{ apis.previous_page_number }}">&laquo;</a></li>
+                      
+                      {% else %}
+
+                        <li class="disabled page-link"><span>&laquo;</span></li>
+
+                      {% endif %}
+                      {% for i in apis.paginator.page_range %}
+                        {% if apis.number == i %}
+
+                          <li class="active page-link"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+
+                        <!--현재 페이지를 기준으로 양 옆으로 네개 -->
+                        {% elif i > apis.number|add:'-4' and i < apis.number|add:'4' %}
+
+                          <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+
+                        {% endif %}
+                      {% endfor %}
+                      {% if apis.has_next %}
+
+                        <li class="page-item"><a class="page-link" aria-label="Next" href="?page={{ apis.next_page_number }}">&raquo;</a></li>
+                      
+                      {% else %}
+
+                        <li class="disabled page-link"><span>&raquo;</span></li>
+
+                      {% endif %}
+                    </ul>
+                  {% endif %}
                 </nav>
               </div>
             </div>
@@ -153,6 +174,34 @@
       </div>
       <!-- main-panel ends -->
     </div>
+
+    <!-- ranking-->
+    <div id="ranking"></div>
+
+    <!-- ranking detail 연결(0703) -->
+    <script>
+      function test(api_name){
+        console.log(api_name)
+        axios.get(`/apis/search/${api_name}/`)
+              .then(res => {
+                  console.log(res.data.api_pk);
+                  let targetId = res.data.api_pk;
+                  axios.get(`/apis/${targetId}/detail/`)
+                  .then(res => {
+                      console.log(res.data)
+                      document.querySelector('.modal-body-div').innerHTML =''
+                      document.querySelector('#chartdiv').innerHTML =''
+                      document.querySelector('.modal-title').innerHTML = res.data.api_name
+                      document.querySelector('.modal-body-div').innerHTML = 
+                      '<div>최종수정일 : ' + res.data.latest_modified_date + '</div>' +
+                      '<div>저작권자명 : ' + res.data.copyright + '</div>' +
+                      '<div>라이센스 : ' + res.data.copyright_range + '</div>' +
+                      '<div>다운로드수 : ' + res.data.download_count + '</div>'
+                      
+                  })
+                })
+      }
+    </script>
 
 
 {% comment %} js 파일 {% endcomment %}
