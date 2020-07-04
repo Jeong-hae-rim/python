@@ -65,24 +65,24 @@
                   <div class="search-field">
                     <div class="input-group">
                       <form autocomplete="off">
-                        <input id="myInput" name="myCountry" type="text" class="border-primary rounded form-control bg-transparent autocomplete" style="width:300px; height:46px;" placeholder="API명을 입력하세요">
+                        <input id="myInput" name="myCountry" type="text" class="border-primary form-control bg-transparent autocomplete" style="width:300px; height:46px;" placeholder="API명을 입력하세요">
                       </form>
                         <div class="input-group-prepend bg-transparent">
-                          <button data-toggle="modal" data-target="#modal-detail" id="userSearch" class="bg-primary border-0 rounded"><i class="input-group-text bg-primary border-0 mdi mdi-magnify" style="color:#fff"></i></button>               
+                          <button data-toggle="modal" data-target="#modal-detail" id="userSearch" class="bg-primary border-0"><i class="input-group-text bg-primary border-0 mdi mdi-magnify" style="color:#fff"></i></button>               
                         </div>
                     </div>
                   </div>
                   
-                  {% comment %} <div class="select-bar col-3">
+                  <div class="select-bar col-3">
                     <form action="" method="GET">
-                      <select class="form-control bg-transparent" style="height:45px; font-family: 'Noto Sans KR', sans-serif;" name="순서">
+                      <select class="border-primary form-control bg-transparent" style="outline: 1.5px solid #b66dff; height:45px; font-family: 'Noto Sans KR', sans-serif;" name="순서">
                         <option value="">Select</option>
                         <option value="이름순">이름순</option>
                         <option value="최신순">최신순</option>
                         <option value="다운로드순">다운로드순</option>
                       </select>
                     </form>
-                  </div> {% endcomment %}
+                  </div>
                 </div>
                 <div class="table-responsive d-flex justify-content-center">
                   <table class="table" style="text-align:center; width:95%;">
@@ -115,9 +115,15 @@
                             {{ api.latest_modified_date }}
                           </td>
                           <td>
-                            <a href="{% url 'apis:download' api.pk %}" download>
+                            {% if request.user.is_authenticated %}
+                              <a href="{% url 'apis:download' api.pk %}" download>
+                                <i class="mdi mdi-arrow-down-bold-circle-outline text-primary" style="font-size:25px"></i>
+                              </a>
+                            {% else %}
+                              <a href="{% url 'accounts:login' %}" onclick="alert('Not Accept : 로그인 후 이용해주세요.');">
                               <i class="mdi mdi-arrow-down-bold-circle-outline text-primary" style="font-size:25px"></i>
                             </a>
+                            {% endif %}
                           </td>
                         </tr>
                       {% endfor %}

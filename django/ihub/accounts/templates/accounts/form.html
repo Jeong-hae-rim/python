@@ -38,14 +38,15 @@
             <div class="card-body">
               <h1 class="text-center">로그인</h1>
               <div style="padding:3rem;">
-                {% bootstrap_form form %}
-                <div class="row d-flex flex-row-reverse justify-content-center" style="margin-top:50px;">
-                  <form action="" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
+                <form action="" method="POST">
+                  {% csrf_token %}
+                  {% bootstrap_form form %}
+                
+                  <div class="row d-flex flex-row-reverse justify-content-center" style="margin-top:50px;">
                     <div class="text-center">
                       <button class="btn btn-primary">LOGIN</button>
                     </div>
-                  </form>
+                </form>
                   <div style="margin-right:10px;">
                     <a href="{% url 'accounts:signup' %}"><button class="btn border-primary">Sign Up</button></a>
                   </div>
